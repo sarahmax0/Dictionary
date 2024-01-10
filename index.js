@@ -1,4 +1,4 @@
-const url= "https://api.dictionaryapi.dev/api/v2/entries/en/hello"
+const url= "https://api.dictionaryapi.dev/api/v2/entries/en/"
 
 const result = document.getElementById("result") 
 const sound = document.getElementById("sound")
@@ -9,19 +9,25 @@ btn.addEventListener("click", () => {
     fetch(`${url}${inpWord}`)
     .then((response) => response.json())
     .then((data) => {
-        console.log(data)
         result.innerHTML = `<div class="word">
-        <h3>Sample</h3>
-        <button><i class="fa-solid fa-volume-high"></i></button>
+        <h3>${inpWord}</h3>
+        <button"><i class="fa-solid fa-volume-high"></i></button>
     </div>
     <div class="details">
-        <p>pos</p>
-        <p>/sample/</p>
+        <p>${data[0].meanings[0].partOfSpeech}</p>
+        <p>${data[0].phonetic}</p>
     </div>
     <div>
-        <p class="word-meaning">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat et commodi eius eveniet. </p>
+        <p class="word-meaning">${data[0].meanings[0].definitions[0].definition} </p>
         <p class="word-example">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat et commodi eius eveniet. 
+            ${data[0].meanings[0].definitions[0]. example || ""} 
         </p>`
+        
     })
+    .catch( () => {
+       result.innerHTML = `<h3 class="error">Couldn't Find The Word</h3>`
+        })
 })
+
+
+
